@@ -1,0 +1,10 @@
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 3.0
+  Exclude:
+    - 'lib/corgibytes/freshli/commons/step_definitions/grpc/**/*'
+    - 'vendor/bundle/**/*'
+
+Style/ConditionalAssignment:
+  Enabled: false

@@ -1,0 +1,46 @@
+# editorconfig.org
+
+# Used the .NET Runtime as the base configuration.
+#
+# https://github.com/dotnet/runtime/blob/main/.editorconfig
+
+# top-most EditorConfig file
+root = true
+
+# Default settings:
+# A newline ending every file
+# Use 4 spaces as indentation
+[*]
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+tab_width = 8
+
+[*.json]
+insert_final_newline = unset
+
+# Shell scripts
+[*.sh]
+end_of_line = lf
+[*.{cmd,bat}]
+end_of_line = crlf
+
+# Ruby files
+[Gemfile.lock]
+indent_size = unset
+
+[LICENSE]
+indent_size = unset
+max_line_length = unset
+
+[CONTRIBUTING.md]
+indent_size = unset
+max_line_length = unset
+
+[README.md]
+indent_size = unset
+max_line_length = unset
+
+[lib/corgibytes/freshli/commons/step_definitions/grpc/**/*.rb]
+generated_code = true
