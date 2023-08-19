@@ -6,7 +6,9 @@ begin
   semver_version = SemVer.find.format('%M.%m.%p%s%d')
   # rubocop:enable Style/FormatStringToken
 rescue LoadError
-  semver_version = '0.0.0'
+  require 'yaml'
+  version_data = YAML.load_file(File.join(__dir__, '.semver'))
+  semver_version = "#{version_data[:major]}.#{version_data[:minor]}.#{version_data[:patch]}-#{version_data[:special]}"
 end
 
 Gem::Specification.new do |spec|
