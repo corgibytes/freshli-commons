@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
-require 'semver'
+begin
+  require 'semver'
+  # rubocop:disable Style/FormatStringToken
+  semver_version = SemVer.find.format('%M.%m.%p%s%d')
+  # rubocop:enable Style/FormatStringToken
+rescue LoadError
+  semver_version = '0.0.0'
+end
 
 Gem::Specification.new do |spec|
   spec.name = 'freshli-commons'
 
-  # rubocop:disable Style/FormatStringToken
-  spec.version = SemVer.find.format('%M.%m.%p%s%d')
-  # rubocop:enable Style/FormatStringToken
+  spec.version = semver_version
 
   spec.authors = ['M. Scott Ford']
   spec.email = ['scott@corgibytes.com']

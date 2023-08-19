@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    freshli-commons (0.6.0.pre.dev)
+    freshli-commons (0.6.1.pre.dev)
       aruba (~> 2.1.0)
       grpc
       rspec-expectations
