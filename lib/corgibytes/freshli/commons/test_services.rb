@@ -19,9 +19,13 @@ module Corgibytes
           socket4 = Socket.new(Socket::Constants::AF_INET, Socket::Constants::SOCK_STREAM, 0)
           socket4.bind(Socket.pack_sockaddr_in(port, '0.0.0.0'))
 
-          # bind to a socket using both ipv4 and ipv6
-          socket6 = Socket.new(Socket::Constants::AF_INET6, Socket::Constants::SOCK_STREAM, 0)
-          socket6.bind(Socket.pack_sockaddr_in(port, '::'))
+          begin
+            # bind to a socket using both ipv4 and ipv6
+            socket6 = Socket.new(Socket::Constants::AF_INET6, Socket::Constants::SOCK_STREAM, 0)
+            socket6.bind(Socket.pack_sockaddr_in(port, '::'))
+          rescue Errno::EADDRINUSE
+            # if ipv6 is not available, then just use ipv4
+          end
 
           @test_services[port] = { v4: socket4, v6: socket6 }
         end
