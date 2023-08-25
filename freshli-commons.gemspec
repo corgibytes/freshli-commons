@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_dependency 'aruba', '~> 2.1.0'
   spec.add_dependency 'grpc'
-  spec.add_denpenency 'grpc-tools'
+  spec.add_dependency 'grpc-tools'
   spec.add_dependency 'rspec-expectations'
   spec.add_dependency 'sqlite3'
 

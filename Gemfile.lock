@@ -4,6 +4,7 @@ PATH
     freshli-commons (0.6.1.pre.dev)
       aruba (~> 2.1.0)
       grpc
+      grpc-tools
       rspec-expectations
       sqlite3
 
@@ -119,7 +120,6 @@ PLATFORMS
 
 DEPENDENCIES
   freshli-commons!
-  grpc-tools
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 1.21)
