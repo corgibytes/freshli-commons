@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    freshli-commons (0.6.4.pre.dev)
+    freshli-commons (0.6.4)
       aruba (~> 2.1.0)
       grpc
       grpc-tools
