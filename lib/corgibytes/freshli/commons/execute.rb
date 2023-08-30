@@ -1,12 +1,27 @@
 # frozen_string_literal: true
 
 require 'open3'
+require 'mkmf'
 
 module Corgibytes
   module Freshli
     module Commons
       # Contains utility methods for executing commands and working with their output.
       module Execute
+
+        def msbuild_dll_path
+          dotnet_exe_path = File.realpath(find_executable('dotnet'))
+          dotnet_dir = File.dirname(dotnet_exe_path)
+          sdk_dir = File.join(dotnet_dir, 'sdk', Dir.children(File.join(dotnet_dir, 'sdk')).max)
+          result = File.join(sdk_dir, 'MSBuild.dll')
+          result = result.gsub('/', '\\') if Gem.win_platform?
+          result
+        end
+
+        def null_output_target
+          Gem.win_platform? ? '\\\\.\\nul' : '/dev/null'
+        end
+
         def enable_dotnet_command_colors
           ENV['DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION'] = 'true'
         end
@@ -31,7 +46,7 @@ module Corgibytes
           end
         end
 
-        BUFFER_LEN = 128
+        BUFFER_LEN = 8
 
         def fill_buffer_from_stream(stream, buffer)
           # loop through reading data until there is an EOF (value is nil)
@@ -88,10 +103,6 @@ module Corgibytes
             exit_status = wait_thread.value
           end
           exit_status
-        end
-
-        def null_output_target
-          Gem.win_platform? ? 'NUL:' : '/dev/null'
         end
       end
     end
