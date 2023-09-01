@@ -15,7 +15,9 @@ Then('the freshli_agent.proto gRPC service is running on port {int}') do |port|
 end
 
 When('I wait for the freshli_agent.proto gRPC service to be running on port {int}') do |port|
-  GrpcClient.new(port).wait_until_running!
+  GrpcClient.new(port).wait_until_running! do |attempts|
+    log("Checking gRPC service health. Attempt ##{attempts}.")
+  end
 end
 
 When('the gRPC service on port {int} is sent the shutdown command') do |port|
@@ -23,7 +25,10 @@ When('the gRPC service on port {int} is sent the shutdown command') do |port|
 end
 
 Then('there are no services running on port {int}') do |port|
-  expect(Ports.available?(port) { |attempts| log(attempts) }).to be_truthy
+  is_port_available = Ports.available?(port) do |attempts|
+    log("Checking port availability. Attempt ##{attempts}.")
+  end
+  expect(is_port_available).to be_truthy
 end
 
 test_services = TestServices.new
