@@ -104,11 +104,15 @@ module Corgibytes
         # rubocop:disable Metrics/MethodLength
         def wait_until_running!
           Timeout.timeout(5) do
+            attempts = 0
             loop do
+              attempts += 1
+              yield(attempts) if block_given?
+
               status = nil
               begin
                 status = health_check
-              rescue GRPC::Unavailable
+              rescue GRPC::Unavailable, GRPC::NotFound
                 status = nil
               end
 
