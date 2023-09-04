@@ -8,7 +8,6 @@ module Corgibytes
     module Commons
       # Contains utility methods for executing commands and working with their output.
       module Execute
-
         def msbuild_dll_path
           dotnet_exe_path = File.realpath(find_executable('dotnet'))
           dotnet_dir = File.dirname(dotnet_exe_path)
