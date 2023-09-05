@@ -111,7 +111,7 @@ namespace :version do
 end
 
 task :reload_and_build do
-  Task.clear
+  Rake::Task.clear
   load(__FILE__)
   Rake::Task['build'].clear_prerequisites
   Rake::Task['build'].invoke
