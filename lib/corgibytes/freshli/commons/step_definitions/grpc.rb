@@ -111,6 +111,10 @@ Then('the ProcessManifest response contains the following file paths expanded be
   expect([@process_manifest_result]).to eq(expected_paths)
 end
 
+Then('the ProcessManifest response is empty') do
+  expect(@process_manifest_result).to be_empty
+end
+
 When('I call RetrieveReleaseHistory with {string} on port {int}') do |package_url, port|
   @retrieve_release_history_results = GrpcClient.new(port).retrieve_release_history(package_url)
 end
