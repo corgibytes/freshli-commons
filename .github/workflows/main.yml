@@ -18,13 +18,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
+
     - name: Lint
       run: bundle exec rake rubocop
+
     - name: Test
       run: bundle exec rake spec
 
@@ -34,6 +37,7 @@ jobs:
         && github.repository == 'corgibytes/freshli-commons'
         && !contains(toJSON(github.event.commits.*.message), '[skip release]')
       run: bundle exec rake version:bump:patch
+
     - name: Release to Rubygems
       if: github.event_name == 'push'
         && github.ref == 'refs/heads/main'
