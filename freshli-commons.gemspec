@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'git-version-bump'
+require_relative 'lib/corgibytes/freshli/commons/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'freshli-commons'
 
-  spec.version = GVB.version
-  spec.date = GVB.date
+  spec.version = Corgibytes::Freshli::Commons::VERSION
 
   spec.authors = ['M. Scott Ford']
   spec.email = ['scott@corgibytes.com']
@@ -27,6 +26,7 @@ Gem::Specification.new do |spec|
     end
     # include gRPC generated files in the gem
     generated_files = Dir.glob('lib/corgibytes/freshli/commons/step_definitions/grpc/*.rb')
+    generated_files += ['lib/corgibytes/freshli/commons/version.rb']
     git_files + generated_files
   end
   spec.bindir = 'exe'
@@ -40,7 +40,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'grpc-tools'
   spec.add_dependency 'rspec-expectations'
   spec.add_dependency 'sqlite3'
-  spec.add_dependency 'git-version-bump'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

@@ -2,7 +2,8 @@
 
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
-require 'git-version-bump/rake-tasks'
+
+require 'git-version-bump'
 
 require 'fileutils'
 
@@ -71,7 +72,51 @@ require 'rubocop/rake_task'
 
 RuboCop::RakeTask.new
 
+namespace :version do
+  desc "Persist the the current version number as #{GVB.version}"
+  task :persist do
+    # open version file and replace contents of VERSION constant with the result of calling `GVB.version`
+    version_file = File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'corgibytes', 'freshli', 'commons', 'version.rb'))
+    version_file_contents = File.read(version_file)
+    new_version_file_contents = version_file_contents.gsub(/VERSION = ".*"/, "VERSION = \"#{GVB.version}\"")
+    File.write(version_file, new_version_file_contents)
+  end
+end
+
 # Ensure that the grpc files are generated before the build runs
-Rake::Task['build'].enhance(['grpc'])
+Rake::Task['build'].enhance(['grpc', 'version:persist'])
 
 task default: %i[grpc spec rubocop]
+
+# Copied from https://github.com/mpalmer/git-version-bump/blob/c1af65cd82c131cb541fa717b3d24a9247973049/lib/git-version-bump/rake-tasks.rb
+# to avoid an issue that was causing the version number of the `git-version-bump` gem to be used instead
+# of this gem's version. That's because of how the `GVB.version` method determines the calling file.
+namespace :version do
+	namespace :bump do
+   	desc "bump major version (x.y.z -> x+1.0.0)"
+   	task :major do
+			GVB.tag_version "#{GVB.major_version + 1}.0.0"
+
+			puts "Version is now #{GVB.version}"
+		end
+
+   	desc "bump minor version (x.y.z -> x.y+1.0)"
+   	task :minor do
+			GVB.tag_version "#{GVB.major_version}.#{GVB.minor_version+1}.0"
+
+			puts "Version is now #{GVB.version}"
+		end
+
+    desc "bump patch version (x.y.z -> x.y.z+1)"
+		task :patch do
+			GVB.tag_version "#{GVB.major_version}.#{GVB.minor_version}.#{GVB.patch_version+1}"
+
+			puts "Version is now #{GVB.version}"
+		end
+
+		desc "Print current version"
+		task :show do
+			puts GVB.version
+		end
+	end
+end
