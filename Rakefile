@@ -75,11 +75,17 @@ RuboCop::RakeTask.new
 namespace :version do
   desc "Persist the the current version number as #{GVB.version}"
   task :persist do
-    # open version file and replace contents of VERSION constant with the result of calling `GVB.version`
     version_file = File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'corgibytes', 'freshli', 'commons', 'version.rb'))
-    version_file_contents = File.read(version_file)
-    new_version_file_contents = version_file_contents.gsub(/VERSION = ".*"/, "VERSION = \"#{GVB.version}\"")
-    File.write(version_file, new_version_file_contents)
+    version_file_contents = <<~VERSION_FILE
+    module Corgibytes
+      module Freshli
+        module Commons
+          VERSION = '#{GVB.version}'
+        end
+      end
+    end
+    VERSION_FILE
+    File.write(version_file, version_file_contents)
   end
 end
 

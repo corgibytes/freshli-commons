@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'lib/corgibytes/freshli/commons/version'
+begin
+  require_relative 'lib/corgibytes/freshli/commons/version'
+rescue LoadError
+  module ::Corgibytes
+    module Freshli
+      module Commons
+        VERSION = '0.0.0'
+      end
+    end
+  end
+end
 
 Gem::Specification.new do |spec|
   spec.name = 'freshli-commons'
