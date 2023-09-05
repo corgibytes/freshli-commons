@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
-begin
-  require 'semver'
-  # rubocop:disable Style/FormatStringToken
-  semver_version = SemVer.find.format('%M.%m.%p%s%d')
-  # rubocop:enable Style/FormatStringToken
-rescue LoadError
-  require 'yaml'
-  version_data = YAML.load_file(File.join(__dir__, '.semver'))
-  semver_version = "#{version_data[:major]}.#{version_data[:minor]}.#{version_data[:patch]}-#{version_data[:special]}"
-end
+require 'git-version-bump'
 
 Gem::Specification.new do |spec|
   spec.name = 'freshli-commons'
 
-  spec.version = semver_version
+  spec.version = GVB.version
+  spec.date = GVB.date
 
   spec.authors = ['M. Scott Ford']
   spec.email = ['scott@corgibytes.com']
@@ -48,6 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'grpc-tools'
   spec.add_dependency 'rspec-expectations'
   spec.add_dependency 'sqlite3'
+  spec.add_dependency 'git-version-bump'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

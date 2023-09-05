@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    freshli-commons (0.6.5)
+    freshli-commons (0.6.5.5.g45d135e.1.dirty.20230905.132546)
       aruba (~> 2.1.0)
+      git-version-bump
       grpc
       grpc-tools
       rspec-expectations
@@ -49,6 +50,7 @@ GEM
     cucumber-tag-expressions (4.1.0)
     diff-lcs (1.5.0)
     ffi (1.15.5)
+    git-version-bump (0.19.0)
     google-protobuf (3.24.1-arm64-darwin)
     google-protobuf (3.24.1-x86_64-linux)
     googleapis-common-protos-types (1.8.0)
@@ -106,7 +108,6 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     ruby-progressbar (1.13.0)
-    semver2 (3.4.2)
     sqlite3 (1.6.3-arm64-darwin)
     sqlite3 (1.6.3-x86_64-linux)
     sys-uname (1.2.3)
@@ -124,7 +125,6 @@ DEPENDENCIES
   rspec (~> 3.0)
   rubocop (~> 1.21)
   rubocop-performance
-  semver2 (~> 3.4, >= 3.4.2)
 
 BUNDLED WITH
    2.4.18

@@ -12,4 +12,3 @@ gem 'rspec', '~> 3.0'
 gem 'rubocop', '~> 1.21'
 gem 'rubocop-performance'
 
-gem 'semver2', '~> 3.4', '>= 3.4.2'

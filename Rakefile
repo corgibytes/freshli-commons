@@ -2,6 +2,7 @@
 
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
+require 'git-version-bump/rake-tasks'
 
 require 'fileutils'
 
