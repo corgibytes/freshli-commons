@@ -1,30 +1,36 @@
 # frozen_string_literal: true
+
 require 'git-version-bump'
 
 def version_file
   File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'corgibytes', 'freshli', 'commons', 'version.rb'))
 end
 
-def write_version
-  version_file_contents = <<~VERSION_FILE
-  module Corgibytes
-    module Freshli
-      module Commons
-        VERSION = '#{GVB.version}'
+def version_file_contents
+  <<~VERSION_FILE
+    # frozen_string_literal: true
+
+    module Corgibytes
+      module Freshli
+        module Commons
+          VERSION = '#{GVB.version}'
+        end
       end
     end
-  end
   VERSION_FILE
+end
+
+def write_version
   File.write(version_file, version_file_contents)
   load_version
 end
 
 def load_version
-  unless require_relative version_file
-    # forcefully reload version file
-    Corgibytes::Freshli::Commons.send(:remove_const, :VERSION)
-    load(version_file)
-  end
+  return if require_relative version_file
+
+  # forcefully reload version file if it was already loaded
+  Corgibytes::Freshli::Commons.send(:remove_const, :VERSION)
+  load(version_file)
 end
 
 write_version
@@ -119,31 +125,31 @@ task default: %i[grpc spec rubocop]
 # to avoid an issue that was causing the version number of the `git-version-bump` gem to be used instead
 # of this gem's version. That's because of how the `GVB.version` method determines the calling file.
 namespace :version do
-	namespace :bump do
-   	desc "bump major version (x.y.z -> x+1.0.0)"
-   	task :major do
-			GVB.tag_version "#{GVB.major_version + 1}.0.0"
+  namespace :bump do
+    desc 'bump major version (x.y.z -> x+1.0.0)'
+    task :major do
+      GVB.tag_version "#{GVB.major_version + 1}.0.0"
 
-			puts "Version is now #{GVB.version}"
-		end
+      puts "Version is now #{GVB.version}"
+    end
 
-   	desc "bump minor version (x.y.z -> x.y+1.0)"
-   	task :minor do
-			GVB.tag_version "#{GVB.major_version}.#{GVB.minor_version+1}.0"
+    desc 'bump minor version (x.y.z -> x.y+1.0)'
+    task :minor do
+      GVB.tag_version "#{GVB.major_version}.#{GVB.minor_version + 1}.0"
 
-			puts "Version is now #{GVB.version}"
-		end
+      puts "Version is now #{GVB.version}"
+    end
 
-    desc "bump patch version (x.y.z -> x.y.z+1)"
-		task :patch do
-			GVB.tag_version "#{GVB.major_version}.#{GVB.minor_version}.#{GVB.patch_version+1}"
+    desc 'bump patch version (x.y.z -> x.y.z+1)'
+    task :patch do
+      GVB.tag_version "#{GVB.major_version}.#{GVB.minor_version}.#{GVB.patch_version + 1}"
 
-			puts "Version is now #{GVB.version}"
-		end
+      puts "Version is now #{GVB.version}"
+    end
 
-		desc "Print current version"
-		task :show do
-			puts GVB.version
-		end
-	end
+    desc 'Print current version'
+    task :show do
+      puts GVB.version
+    end
+  end
 end
