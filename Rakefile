@@ -1,9 +1,36 @@
 # frozen_string_literal: true
+require 'git-version-bump'
+
+def version_file
+  File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'corgibytes', 'freshli', 'commons', 'version.rb'))
+end
+
+def write_version
+  version_file_contents = <<~VERSION_FILE
+  module Corgibytes
+    module Freshli
+      module Commons
+        VERSION = '#{GVB.version}'
+      end
+    end
+  end
+  VERSION_FILE
+  File.write(version_file, version_file_contents)
+  load_version
+end
+
+def load_version
+  unless require_relative version_file
+    # forcefully reload version file
+    Corgibytes::Freshli::Commons.send(:remove_const, :VERSION)
+    load(version_file)
+  end
+end
+
+write_version
 
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
-
-require 'git-version-bump'
 
 require 'fileutils'
 
@@ -75,20 +102,7 @@ RuboCop::RakeTask.new
 namespace :version do
   desc "Persist the the current version number as #{GVB.version}"
   task :persist do
-    version_file = File.expand_path(File.join(File.dirname(__FILE__), 'lib', 'corgibytes', 'freshli', 'commons', 'version.rb'))
-    version_file_contents = <<~VERSION_FILE
-    module Corgibytes
-      module Freshli
-        module Commons
-          VERSION = '#{GVB.version}'
-        end
-      end
-    end
-    VERSION_FILE
-    File.write(version_file, version_file_contents)
-
-    # forcefully reload version file
-    load(version_file)
+    write_version
   end
 end
 
