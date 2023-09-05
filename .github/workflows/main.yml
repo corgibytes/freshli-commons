@@ -31,6 +31,15 @@ jobs:
     - name: Test
       run: bundle exec rake spec
 
+    - name: Setup Rubygems credentials
+      uses: fac/ruby-gem-setup-credentials-action@v2
+      if: github.event_name == 'push'
+        && github.ref == 'refs/heads/main'
+        && github.repository == 'corgibytes/freshli-commons'
+        && !contains(toJSON(github.event.commits.*.message), '[skip release]')
+      with:
+        token: ${{ secrets.RUBYGEMS_API_KEY }}
+
     - name: Bump version
       if: github.event_name == 'push'
         && github.ref == 'refs/heads/main'
