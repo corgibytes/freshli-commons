@@ -86,6 +86,9 @@ namespace :version do
     end
     VERSION_FILE
     File.write(version_file, version_file_contents)
+
+    # forcefully reload version file
+    load(version_file)
   end
 end
 
