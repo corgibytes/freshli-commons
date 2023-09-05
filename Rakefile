@@ -84,7 +84,7 @@ namespace :version do
 end
 
 # Ensure that the grpc files are generated before the build runs
-Rake::Task['build'].enhance(['grpc', 'version:persist'])
+Rake::Task['build'].enhance(['grpc', 'version:bump:patch', 'version:persist'])
 
 task default: %i[grpc spec rubocop]
 
