@@ -113,6 +113,7 @@ end
 task :reload_and_build do
   Rake::Task.clear
   require "bundler/gem_helper"
+  Bundler.clear_gemspec_cache
   Bundler::GemHelper.new.install
   Rake::Task['build'].invoke
 end
