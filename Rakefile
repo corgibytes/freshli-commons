@@ -104,10 +104,14 @@ namespace :version do
   task :persist do
     write_version
   end
+
+  task :show do
+    puts "Current version #{Corgibytes::Freshli::Commons::VERSION}"
+  end
 end
 
 # Ensure that the grpc files are generated before the build runs
-Rake::Task['build'].enhance(['grpc', 'version:bump:patch', 'version:persist'])
+Rake::Task['build'].enhance(['grpc', 'version:bump:patch', 'version:persist', 'version:show'])
 
 task default: %i[grpc spec rubocop]
 
