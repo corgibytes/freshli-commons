@@ -110,16 +110,8 @@ namespace :version do
   end
 end
 
-task :reload_and_build do
-  Rake::Task.clear
-  require "bundler/gem_helper"
-  Bundler.clear_gemspec_cache
-  Bundler::GemHelper.new.install
-  Rake::Task['build'].invoke
-end
-
 # Ensure that the grpc files are generated before the build runs
-Rake::Task['build'].enhance(['grpc', 'version:bump:patch', 'version:persist', 'version:show', 'reload_and_build'])
+Rake::Task['build'].enhance(['grpc', 'version:show'])
 
 task default: %i[grpc spec rubocop]
 
