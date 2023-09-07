@@ -19,6 +19,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - uses: nodef/git-config.action@v1.0.0
+      with:
+        credentials: auto
+        entries: |-
+          user.name  = Freshli Bot
+          user.email = bot@freshli.io
+
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
