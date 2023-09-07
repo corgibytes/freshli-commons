@@ -13,3 +13,6 @@
 lib/corgibytes/freshli/commons/step_definitions/grpc/*.rb
 
 lib/corgibytes/freshli/commons/version.rb
+
+Gemfile.lock
+vendor/
