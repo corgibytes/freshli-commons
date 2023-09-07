@@ -54,15 +54,16 @@ jobs:
         && github.ref == 'refs/heads/main'
         && github.repository == 'corgibytes/freshli-commons'
         && !contains(toJSON(github.event.commits.*.message), '[skip release]')
-      run: bundle exec rake version:bump:patch
+      run: |
+        bundle exec rake version:bump:patch
 
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
-      with:
-        ## limits ssh access and adds the ssh public key for the user which triggered the workflow
-        limit-access-to-actor: true
-        ## limits ssh access and adds the ssh public keys of the listed GitHub users
-        limit-access-to-users: mscottford
+    - name: Force version reload
+      if: github.event_name == 'push'
+        && github.ref == 'refs/heads/main'
+        && github.repository == 'corgibytes/freshli-commons'
+        && !contains(toJSON(github.event.commits.*.message), '[skip release]')
+      run: |
+        bundle exec rake -T
 
     - name: Release to Rubygems
       if: github.event_name == 'push'
