@@ -12,7 +12,7 @@ Given('I clone the git repository {string} with the sha {string}') do |repositor
   FileUtils.mkdir_p(repositories_dir)
 
   unless Dir.exist?(cloned_dir)
-    $stdout.print "Cloning #{repository_url} ..."
+    log "Cloning `#{repository_url}`..."
     unless system(
       "git clone #{repository_url}",
       chdir: repositories_dir,
@@ -22,7 +22,7 @@ Given('I clone the git repository {string} with the sha {string}') do |repositor
       raise "Failed to clone #{repository_url}"
     end
 
-    puts 'done.'
+    log 'done.'
   end
   unless system(
     "git checkout #{sha}",
