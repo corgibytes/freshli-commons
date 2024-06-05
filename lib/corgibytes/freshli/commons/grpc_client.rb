@@ -30,11 +30,7 @@ module Corgibytes
           client = grpc_agent_client_on(@captured_port)
           response = client.detect_manifests(::Com::Corgibytes::Freshli::Agent::ProjectLocation.new(path: project_path))
 
-          result = []
-          response.each do |location|
-            result << location.path
-          end
-          result
+          response.map(&:path)
         end
 
         # rubocop:disable Naming/AccessorMethodName
@@ -42,22 +38,14 @@ module Corgibytes
           client = grpc_agent_client_on(@port)
           response = client.get_validating_packages(::Google::Protobuf::Empty.new)
 
-          result = []
-          response.each do |package|
-            result << package.purl
-          end
-          result
+          response.map(&:purl)
         end
 
         def get_validating_repositories
           client = grpc_agent_client_on(@port)
           response = client.get_validating_repositories(::Google::Protobuf::Empty.new)
 
-          result = []
-          response.each do |repository|
-            result << repository.url
-          end
-          result
+          response.map(&:url)
         end
         # rubocop:enable Naming/AccessorMethodName
 
@@ -75,14 +63,12 @@ module Corgibytes
         def retrieve_release_history(package_url)
           client = grpc_agent_client_on(@port)
           response = client.retrieve_release_history(::Com::Corgibytes::Freshli::Agent::Package.new(purl: package_url))
-          result = []
-          response.each do |release|
-            result << {
+          response.map do |release|
+            {
               version: release.version,
               released_at: release.released_at.to_time.to_datetime.new_offset('0:00')
             }
           end
-          result
         end
 
         def health_check
