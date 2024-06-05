@@ -44,8 +44,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'aruba', '~> 2.1.0'
-  spec.add_dependency 'grpc', '~> 1.58.0'
-  spec.add_dependency 'grpc-tools', '~> 1.58.0'
+  spec.add_dependency 'grpc', '~> 1.64.0'
+  spec.add_dependency 'grpc-tools', '~> 1.64.0'
   spec.add_dependency 'rspec-expectations', '~> 3.12.3'
   spec.add_dependency 'sqlite3', '~> 1.6.6'
 
